@@ -9,7 +9,7 @@
   "iot_class": "local_polling",
   "issue_tracker": "https://github.com/mjcumming/wiim/issues",
   "quality_scale": "silver",
-  "requirements": ["pywiim>=2.1.29"],
+  "requirements": ["pywiim @ git+https://github.com/notchris1/pywiim.git@Support-audiopro-input-switching"],
   "ssdp": [
     {
       "manufacturer": "WiiM",
