@@ -212,9 +212,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     capabilities = {}
     try:
         # Use cached endpoint if available, otherwise let pywiim probe automatically
+        # Use 30s timeout for mTLS devices (Audio Pro) which require longer SSL handshake
         temp_client_kwargs = {
             "host": entry.data["host"],
-            "timeout": entry.data.get("timeout", 10),
+            "timeout": entry.data.get("timeout", 30),
             "session": session,
         }
         if port is not None and protocol is not None:
@@ -276,6 +277,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     # Coordinator creates client and player internally using HA's shared session
     # Pass port/protocol if we have a cached endpoint, otherwise let pywiim probe
+    # Use 30s timeout for mTLS devices (Audio Pro) which require longer SSL handshake
     coordinator = WiiMCoordinator(
         hass,
         host=entry.data["host"],
@@ -283,7 +285,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         capabilities=capabilities,
         port=port,
         protocol=protocol,
-        timeout=entry.data.get("timeout", 10),
+        timeout=entry.data.get("timeout", 30),
     )
 
     # ------------------------------------------------------------------
